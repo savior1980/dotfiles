@@ -1,24 +1,63 @@
-local vim = vim
 
 local M = {}
 
 function M.setup()
 
--- autocompile
-vim.cmd([[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
-  augroup end
-]])
+local vim = vim
 
--- Packer auto bootstrap
 local fn = vim.fn
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local autocmd = vim.api.nvim_create_autocmd
+local augroup = vim.api.nvim_create_augroup
+
+-- Automatically install packer
+local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
+local compile_path = fn.stdpath "config" .. "/lua/packer_compiled.lua"
+
 if fn.empty(fn.glob(install_path)) > 0 then
-  Packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-  vim.cmd [[packadd packer.nvim]]
+  PACKER_BOOTSTRAP = fn.system {
+    "git",
+    "clone",
+    "--depth",
+    "1",
+    "https://github.com/wbthomason/packer.nvim",
+    install_path,
+  }
+  print "Installing packer close and reopen Neovim..."
+  require("packer").packadd = "packer.nvim"
 end
+
+local Packer = augroup("packer_user_config", { clear = true })
+
+-- Automatically re-compile packer whenever you save packer.lua
+autocmd("BufWritePost", {
+  callback = function()
+    vim.cmd [[ source <afile> | PackerCompile ]]
+  end,
+  group = Packer,
+  pattern = "packer.lua",
+})
+
+-- Use a protected call so we don't error out on first use
+local status_ok, packer = pcall(require, "packer")
+if not status_ok then
+  return
+end
+
+-- Have packer use a popup window
+packer.init {
+  display = {
+    open_fn = function()
+      return require("packer.util").float { border = "rounded" }
+    end,
+  },
+  compile_path = compile_path,
+  git = {
+    clone_timeout = 300,
+  },
+  working_sym = "", -- The symbol for a plugin being installed/updated
+  error_sym = "✗", -- The symbol for a plugin with an error in installation/updating
+  done_sym = "✓", -- The symbol for a plugin which has completed installation/updating
+}
 
 -- packer config
  require('packer').startup(function(use)
@@ -329,7 +368,6 @@ end
         require'alpha'.setup(require'alpha.themes.startify'.config)
     end
     }
-    
 
     require'lightspeed'.setup {
         ignore_case = false,
