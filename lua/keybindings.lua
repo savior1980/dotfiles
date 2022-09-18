@@ -21,7 +21,7 @@ vim.api.nvim_set_keymap('n','<Leader>.',':bnext<CR>',{ noremap = true, silent = 
 vim.api.nvim_set_keymap('n','<Leader><Leader>',':bprevious<CR>',{ noremap = true, silent = true })
 vim.api.nvim_set_keymap('n','<Leader><Leader><Leader>',':Telescope find_files<CR>',{ noremap = true, silent = true })
 
-vim.api.nvim_set_keymap('n','<Leader>f',':MRU<CR>',{ noremap = true, silent = true })
+vim.api.nvim_set_keymap('n','<Leader>f',':Telescope oldfiles<CR>',{ noremap = true, silent = true })
 
 vim.api.nvim_set_keymap('n','<Leader>ff',':Telescope find_files<CR>',{ noremap = true, silent = false })
 vim.api.nvim_set_keymap('n','<Leader>fg',':Telescope live_grep<CR>',{ noremap = true, silent = false })

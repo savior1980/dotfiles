@@ -103,7 +103,7 @@ packer.init {
     use 'Chiel92/vim-autoformat'
     use 'junegunn/vim-peekaboo'
     --use 'gennaro-tedesco/nvim-peekup'
-    use 'yegappan/mru'
+    --use 'yegappan/mru' -- replaced by :Telescope oldfiles
     use 'SidOfc/mkdx'
     use 'tpope/vim-unimpaired'
 
