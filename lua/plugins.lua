@@ -103,6 +103,7 @@ packer.init {
     use 'hashrocket/vim-macdown'
     use 'Chiel92/vim-autoformat'
     use 'junegunn/vim-peekaboo'
+    --use 'gennaro-tedesco/nvim-peekup'
     use 'yegappan/mru'
     use 'SidOfc/mkdx'
     use 'tpope/vim-unimpaired'
@@ -388,7 +389,7 @@ packer.init {
         repeat_ft_with_target_char = false,
     }
     -- automatically setup config on bootstrap
-    if Packer_bootstrap then
+    if PACKER_BOOTSTRAP then
         require('packer').sync()
     end
 end)
